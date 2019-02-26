@@ -15,6 +15,20 @@ ActiveRecord::Schema.define(version: 2019_02_26_124039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "app_queries", force: :cascade do |t|
+    t.bigint "queryid"
+    t.text "query"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "app_queries_branch_test_runs", id: false, force: :cascade do |t|
+    t.bigint "branch_test_run_id"
+    t.bigint "app_query_id"
+    t.index ["app_query_id"], name: "index_app_queries_branch_test_runs_on_app_query_id"
+    t.index ["branch_test_run_id"], name: "index_app_queries_branch_test_runs_on_branch_test_run_id"
+  end
+
   create_table "branch_comparisons", force: :cascade do |t|
     t.text "comments"
     t.datetime "created_at", null: false
@@ -30,25 +44,11 @@ ActiveRecord::Schema.define(version: 2019_02_26_124039) do
     t.index ["branch_id"], name: "index_branch_test_runs_on_branch_id"
   end
 
-  create_table "branch_test_runs_queries", id: false, force: :cascade do |t|
-    t.bigint "branch_test_run_id"
-    t.bigint "query_id"
-    t.index ["branch_test_run_id"], name: "index_branch_test_runs_queries_on_branch_test_run_id"
-    t.index ["query_id"], name: "index_branch_test_runs_queries_on_query_id"
-  end
-
   create_table "branches", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_branches_on_name"
-  end
-
-  create_table "queries", force: :cascade do |t|
-    t.bigint "queryid"
-    t.text "query"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end

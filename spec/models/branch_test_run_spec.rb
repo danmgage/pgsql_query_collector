@@ -4,7 +4,7 @@ describe BranchTestRun do
   describe 'relationships' do
     let(:branch) { Branch.create name: 'b1' }
     let(:branch_comparison) { BranchComparison.create }
-    let(:query) { Query.create queryid: 1, query: 'select' }
+    let(:query) { AppQuery.create queryid: 1, query: 'select' }
 
     it 'works with all relationships' do
       branch_test_run = BranchTestRun.create branch: branch, branch_comparison: branch_comparison
@@ -12,7 +12,7 @@ describe BranchTestRun do
       expect(branch.branch_test_runs).to include(branch_test_run)
       expect(branch_comparison.branch_test_runs).to include(branch_test_run)
 
-      branch_test_run.queries << query
+      branch_test_run.app_queries << query
 
       expect(query.branch_test_runs).to include(branch_test_run)
 

@@ -7,9 +7,9 @@ class CreateBranchTestRuns < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    create_table :branch_test_runs_queries, id: false do |t|
+    create_table :app_queries_branch_test_runs, id: false do |t|
       t.references :branch_test_run
-      t.references :query
+      t.references :app_query
     end
   end
 end

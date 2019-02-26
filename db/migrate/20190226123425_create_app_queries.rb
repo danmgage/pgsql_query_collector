@@ -1,6 +1,6 @@
-class CreateQueries < ActiveRecord::Migration[5.2]
+class CreateAppQueries < ActiveRecord::Migration[5.2]
   def change
-    create_table :queries do |t|
+    create_table :app_queries do |t|
       t.integer :queryid, :limit => 8
       t.text    :query
 
