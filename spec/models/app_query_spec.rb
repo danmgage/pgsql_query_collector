@@ -32,6 +32,7 @@ RSpec.describe AppQuery, type: :model do
       expect(AppQuery.count()).to eq(3)
     end
 
+    # TODO replace this with some way of logging these situations, which can happen with differences that aren't relevant
     it 'raises if queryid does not match query' do
       AppQuery.map_from_pg_stat_statements([statement_query_1, statement_query_2])
 

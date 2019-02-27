@@ -24,8 +24,9 @@ SELECT pg_stat_statements_reset();
 
 
 
+# example usage from the console
 
-
+b1 = Branch.create name: '1114' 
 b2 = Branch.create name: '1114_after_test'
 branch_comparison = BranchComparison.create
 
@@ -38,3 +39,5 @@ branch_test_run_2 = branch_comparison.collect_branch_queries(b2)
 
 
 branch_comparison.additional_queries_for_branch(b2)
+
+puts branch_comparison.additional_queries_for_branch(b1).map(&:query).join("\n")

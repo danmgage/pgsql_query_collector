@@ -25,10 +25,15 @@ class BranchComparison < ApplicationRecord
 
     if remove_noise
       additional_queries.select! do |query|
-        !query.query.include?('pg_temp') && !query.query.include?('TRUNCATE TABLE')
+        !query.query.include?('pg_temp') &&
+            !query.query.include?('pg_namespace') &&
+            !query.query.include?('schema_migrations') &&
+            !query.query.include?('pg_advisory_unlock') &&
+            !query.query.include?('pg_try_advisory_lock') &&
+            (query.query =~ /^TRUNCATE|^ALTER|^DROP|^CREATE|^SAVEPOINT|^RELEASE/).nil?
       end
     end
 
-    return additional_queries
+    return additional_queries.sort {|a,b| a.query <=> b.query}
   end
 end
