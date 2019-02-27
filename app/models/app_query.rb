@@ -21,11 +21,4 @@ class AppQuery < ApplicationRecord
 
     return app_queries
   end
-
-  # gets all statements from stat_statements for the given DB, as an array of hashes
-  # @param db_name [String]
-  # @return [Array[Hash]]
-  def self.get_stat_statements_for_db(db_name)
-    # TODO
-  end
 end

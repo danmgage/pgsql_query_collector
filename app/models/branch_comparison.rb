@@ -14,4 +14,13 @@ class BranchComparison < ApplicationRecord
 
     return branch_test_run
   end
+
+  # @param branch [Branch] the branch for which we want to find the additional queries
+  # @return [Array[AppQuery]] queries which are in the passed branch, but not in the other one
+  def additional_queries_for_branch(branch)
+    branch_1_test_run = branch_test_runs.where(branch: branch).first
+    branch_2_test_run = branch_test_runs.where.not(branch: branch).first
+
+    return branch_1_test_run.app_queries - branch_2_test_run.app_queries
+  end
 end

@@ -33,7 +33,7 @@ RSpec.describe AppQuery, type: :model do
     end
 
     it 'raises if queryid does not match query' do
-      ppQuery.map_from_pg_stat_statements([statement_query_1, statement_query_2])
+      AppQuery.map_from_pg_stat_statements([statement_query_1, statement_query_2])
 
       expect { AppQuery.map_from_pg_stat_statements([statement_query_4])}.to raise_error(StandardError)
     end
