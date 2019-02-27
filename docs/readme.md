@@ -20,3 +20,21 @@ To see the data, go to DB 'postgres' and execute:
 SELECT * FROM pg_stat_statements;
 
 SELECT pg_stat_statements_reset();
+
+
+
+
+
+
+b2 = Branch.create name: '1114_after_test'
+branch_comparison = BranchComparison.create
+
+
+PostgresDb::PgStatStatement.pg_stat_statements_reset()
+branch_test_run = branch_comparison.collect_branch_queries(b1)
+
+
+branch_test_run_2 = branch_comparison.collect_branch_queries(b2)
+
+
+branch_comparison.additional_queries_for_branch(b2)

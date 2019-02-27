@@ -6,9 +6,9 @@ describe BranchComparison do
     let(:branch_comparison) { BranchComparison.create }
 
     let(:statements) {[
-        { queryid: 1, query: 'select * from t1' },
-        { queryid: 2, query: 'select * from t2' },
-        { queryid: 3, query: 'select * from t3' },
+        { 'queryid' => 1, 'query' => 'select * from t1' },
+        { 'queryid' => 2, 'query' => 'select * from t2' },
+        { 'queryid' => 3, 'query' => 'select * from t3' },
     ]}
 
     it 'creates branch_test_run and queries' do
