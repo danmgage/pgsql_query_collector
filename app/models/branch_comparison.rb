@@ -17,10 +17,18 @@ class BranchComparison < ApplicationRecord
 
   # @param branch [Branch] the branch for which we want to find the additional queries
   # @return [Array[AppQuery]] queries which are in the passed branch, but not in the other one
-  def additional_queries_for_branch(branch)
+  def additional_queries_for_branch(branch, remove_noise=true)
     branch_1_test_run = branch_test_runs.where(branch: branch).first
     branch_2_test_run = branch_test_runs.where.not(branch: branch).first
 
-    return branch_1_test_run.app_queries - branch_2_test_run.app_queries
+    additional_queries = branch_1_test_run.app_queries - branch_2_test_run.app_queries
+
+    if remove_noise
+      additional_queries.select! do |query|
+        !query.query.include?('pg_temp') && !query.query.include?('TRUNCATE TABLE')
+      end
+    end
+
+    return additional_queries
   end
 end
