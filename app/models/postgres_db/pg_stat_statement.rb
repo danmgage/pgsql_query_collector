@@ -10,4 +10,9 @@ class PostgresDb::PgStatStatement < ApplicationRecord
 
     where(dbid: db_oid).as_json
   end
+
+  # resets pg_stat_statements
+  def self.pg_stat_statements_reset
+    PostgresDb::PgStatStatement.find_by_sql("SELECT pg_stat_statements_reset()")
+  end
 end
