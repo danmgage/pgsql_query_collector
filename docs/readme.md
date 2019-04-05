@@ -20,20 +20,24 @@ To see the data, go to DB 'postgres' and execute:
 SELECT * FROM pg_stat_statements;
 
 SELECT pg_stat_statements_reset();
-
-
-
+NB: the queryid is NOT stable after a reset, ie, the same query can have a different queryid
 
 # example usage from the console
 
 b1 = Branch.create name: '1114' 
+
 b2 = Branch.create name: '1114_after_test'
+
 branch_comparison = BranchComparison.create
 
 
 PostgresDb::PgStatStatement.pg_stat_statements_reset()
+
+# run the test on b1
+
 branch_test_run = branch_comparison.collect_branch_queries(b1)
 
+# run the test on b2
 
 branch_test_run_2 = branch_comparison.collect_branch_queries(b2)
 
