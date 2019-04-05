@@ -1,24 +1,47 @@
-# README
+# Configuring PostgreSQL
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This app needs Postgres to have the pg_stat_statements extension configured and running:
 
-Things you may want to cover:
 
-* Ruby version
+edit postgresql.conf, add two lines near the beginning:
+show config_file;   "/usr/local/var/postgres/postgresql.conf"
 
-* System dependencies
+shared_preload_libraries = 'pg_stat_statements'
+pg_stat_statements.track = all
 
-* Configuration
+restart the DB, then:
 
-* Database creation
+CREATE EXTENSION pg_stat_statements;
 
-* Database initialization
+# Seeing and resetting the stats
 
-* How to run the test suite
+To see the data, go to DB 'postgres' and execute:
 
-* Services (job queues, cache servers, search engines, etc.)
+SELECT * FROM pg_stat_statements;
 
-* Deployment instructions
+SELECT pg_stat_statements_reset();
+NB: the queryid is NOT stable after a reset, ie, the same query can have a different queryid
 
-* ...
+# example usage from the console
+
+b1 = Branch.create name: '1114' 
+
+b2 = Branch.create name: '1114_after_test'
+
+branch_comparison = BranchComparison.create
+
+
+PostgresDb::PgStatStatement.pg_stat_statements_reset()
+
+# run the test on b1
+
+branch_test_run = branch_comparison.collect_branch_queries(b1)
+
+# run the test on b2
+
+branch_test_run_2 = branch_comparison.collect_branch_queries(b2)
+
+
+branch_comparison.additional_queries_for_branch(b2)
+
+puts branch_comparison.additional_queries_for_branch(b1).map(&:query).join("\n")
