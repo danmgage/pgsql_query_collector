@@ -1,3 +1,6 @@
+This tool records the queries between two executions of the tests of an application, and
+then allows to print the new queries for the second execution.
+
 # Configuring PostgreSQL
 
 This app needs Postgres to have the pg_stat_statements extension configured and running:
@@ -33,15 +36,13 @@ branch_comparison = BranchComparison.create
 
 PostgresDb::PgStatStatement.pg_stat_statements_reset()
 
-# run the test on b1
+## run the test on b1
 
 branch_test_run = branch_comparison.collect_branch_queries(b1)
 
-# run the test on b2
+## run the test on b2
 
 branch_test_run_2 = branch_comparison.collect_branch_queries(b2)
 
-
-branch_comparison.additional_queries_for_branch(b2)
-
-puts branch_comparison.additional_queries_for_branch(b1).map(&:query).join("\n")
+## print to screen the new queries
+puts branch_comparison.additional_queries_for_branch(b2).join("\n")
